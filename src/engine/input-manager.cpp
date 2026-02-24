@@ -17,6 +17,7 @@ void InputManager::update(float _delta, Rect _viewport) {
     if (m_instance == nullptr) return;
     m_instance->m_keyboard.update(_delta, _viewport);
     m_instance->m_mouse.update(_delta, _viewport);
+    m_instance->m_gamepad.update(_delta, _viewport);
 }
 
 void InputManager::addAction(const char* _name, const Action& _action) {
@@ -40,7 +41,10 @@ float InputManager::getAxis(const char* _axis) {
     KeyValue mouseValue = (m_instance->m_mouse.getKey((KeyCode)it->second.mousePositiveBinding))
         - (m_instance->m_mouse.getKey((KeyCode)it->second.mouseNegativeBinding));
 
-    return static_cast<float>(keyboardValue + mouseValue);
+    KeyValue gamepadValue = (m_instance->m_gamepad.getKey((KeyCode)it->second.gamepadPositiveBinding))
+        - (m_instance->m_gamepad.getKey((KeyCode)it->second.gamepadNegativeBinding));
+
+    return static_cast<float>(keyboardValue + mouseValue + gamepadValue);
 }
 
 bool InputManager::getAction(const char* _action) {
@@ -52,7 +56,9 @@ bool InputManager::getAction(const char* _action) {
     
     bool mouseValue = (m_instance->m_mouse.getKey((KeyCode)it->second.mouseBinding) > 0.0f);
 
-    return keyboardValue || mouseValue;
+    bool gamepadValue = (m_instance->m_gamepad.getKey((KeyCode)it->second.gamepadBinding) > 0.0f);
+
+    return keyboardValue || mouseValue || gamepadValue;
 }
 
 bool InputManager::getActionDown(const char* _action) {
@@ -64,7 +70,9 @@ bool InputManager::getActionDown(const char* _action) {
 
     bool mouseValue = (m_instance->m_mouse.getKeyDown((KeyCode)it->second.mouseBinding) > 0.0f);
 
-    return keyboardValue || mouseValue;
+    bool gamepadValue = (m_instance->m_gamepad.getKeyDown((KeyCode)it->second.gamepadBinding) > 0.0f);
+
+    return keyboardValue || mouseValue || gamepadValue;
 }
 
 bool InputManager::getActionUp(const char* _action) {
@@ -76,5 +84,7 @@ bool InputManager::getActionUp(const char* _action) {
 
     bool mouseValue = (m_instance->m_mouse.getKeyUp((KeyCode)it->second.mouseBinding) > 0.0f);
 
-    return keyboardValue || mouseValue;
+    bool gamepadValue = (m_instance->m_gamepad.getKeyUp((KeyCode)it->second.gamepadBinding) > 0.0f);
+
+    return keyboardValue || mouseValue || gamepadValue;
 }

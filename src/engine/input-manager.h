@@ -2,15 +2,19 @@
 
 #include "input-device.h"
 #include "devices/mouse-device.h"
+#include "devices/gamepad-device.h"
 #include "devices/keyboard-device.h"
 
 #include <unordered_map>
 #include <string>
 
+
 struct Action {
 	Keyboard::Key keyboardBinding = Keyboard::Key::NONE;
 
 	Mouse::Key mouseBinding = Mouse::Key::NONE;
+
+	Gamepad::Key gamepadBinding = Gamepad::Key::NONE;
 };
 
 struct Axis {
@@ -19,6 +23,9 @@ struct Axis {
 
 	Mouse::Key mousePositiveBinding = Mouse::Key::NONE;
 	Mouse::Key mouseNegativeBinding = Mouse::Key::NONE;
+
+	Gamepad::Key gamepadPositiveBinding = Gamepad::Key::NONE;
+	Gamepad::Key gamepadNegativeBinding = Gamepad::Key::NONE;
 };
 
 class InputManager {
@@ -45,4 +52,5 @@ private:
 	// Devices
 	Keyboard m_keyboard;
 	Mouse m_mouse;
+	Gamepad m_gamepad;
 };

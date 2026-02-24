@@ -162,5 +162,5 @@ void Keyboard::update(float _delta, Rect _viewport) {
         setKey(code, value);
     }
 
-    endUpdate(); // Finalize the frame
+    endUpdate();
 }

@@ -5,17 +5,30 @@
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(960, 540), "Input Manager");
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(60);
 
 	sf::CircleShape shape(60.0f);
 	shape.setFillColor(sf::Color::Red);
 
 	InputManager::init();
 
-	InputManager::addAxis("horizontal"	,	{ Keyboard::Key::RIGHT, Keyboard::Key::LEFT , Mouse::Key::DELTA_RIGHT, Mouse::Key::DELTA_LEFT});
-	InputManager::addAxis("vertical"	,	{ Keyboard::Key::UP, Keyboard::Key::DOWN, Mouse::Key::DELTA_UP, Mouse::Key::DELTA_DOWN });
+	InputManager::addAxis("horizontal"	,{
+		Keyboard::Key::RIGHT, Keyboard::Key::LEFT ,
+		Mouse::Key::DELTA_RIGHT, Mouse::Key::DELTA_LEFT,
+		Gamepad::Key::LEFT_STICK_RIGHT, Gamepad::Key::LEFT_STICK_LEFT
+	});
 
-	InputManager::addAction("jump"		,	{ Keyboard::Key::SPACE, Mouse::Key::BUTTON_LEFT	});
+	InputManager::addAxis("vertical"	,{
+		Keyboard::Key::UP, Keyboard::Key::DOWN,
+		Mouse::Key::DELTA_UP, Mouse::Key::DELTA_DOWN,
+		Gamepad::Key::LEFT_STICK_UP, Gamepad::Key::LEFT_STICK_DOWN
+	});
+
+	InputManager::addAction("jump"		,{
+		Keyboard::Key::SPACE,
+		Mouse::Key::BUTTON_LEFT,
+		Gamepad::Key::A
+	});
 
 	sf::Clock delta;
 	while (window.isOpen()) {
@@ -42,8 +55,8 @@ int main() {
 
 		float speed = deltaTime * 512.0f;
 
-		float x = InputManager::getAxis("horizontal") / 10.0f;
-		float y = -InputManager::getAxis("vertical") / 10.0f;
+		float x = InputManager::getAxis("horizontal");
+		float y = -InputManager::getAxis("vertical");
 
 		if (InputManager::getActionDown("jump")) {
 			std::cout << "JUMPED !" << std::endl;

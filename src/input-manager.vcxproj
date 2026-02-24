@@ -22,6 +22,7 @@
     <ClCompile Include="engine\input-device.cpp" />
     <ClCompile Include="engine\devices\keyboard-device.cpp" />
     <ClCompile Include="engine\input-manager.cpp" />
+    <ClCompile Include="engine\devices\gamepad-device.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\devices\mouse-device.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="engine\devices\keyboard-device.h" />
     <ClInclude Include="engine\input-manager.h" />
     <ClInclude Include="engine\devices\mouse-device.h" />
+    <ClInclude Include="engine\devices\gamepad-device.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

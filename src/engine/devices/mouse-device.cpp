@@ -18,7 +18,7 @@ void Mouse::unlock() {
 void Mouse::update(float _delta, Rect _viewport) {
 	beginUpdate();
 
-	// Mouse Delta
+	// Mouse Buttons
 	SHORT leftState = GetAsyncKeyState(VK_LBUTTON);
 
 	setKey(static_cast<KeyCode>(Key::BUTTON_LEFT), (leftState & 0x8000) ? 1.0f : 0.0f);
@@ -61,13 +61,15 @@ void Mouse::update(float _delta, Rect _viewport) {
 		originY = viewportCenterY;
 	}
 
-	float deltaX = (currentPos.x - originX) / _delta * 0.016f;;
-	float deltaY = (currentPos.y - originY) / _delta * 0.016f;;
+	float deltaX = (currentPos.x - originX) / _delta * 0.016f;
+	float deltaY = (currentPos.y - originY) / _delta * 0.016f;
 
-	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY : 0.0f);
+	float senvity = 0.05f; // TO DO : Make it modifiable, remove it from here
+
+	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX  * senvity : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX * senvity : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY * senvity : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY  * senvity : 0.0f);
 
 	m_lastX = currentX;
 	m_lastY = currentY;
@@ -76,9 +78,8 @@ void Mouse::update(float _delta, Rect _viewport) {
 		SetCursorPos(viewportCenterX, viewportCenterY);
 	}
 
-	// --- Update Scroll Wheel ---
-	// Scroll values are accumulated from WndProc WM_MOUSEWHEEL messages
-	// Here we just commit the accumulated value and reset
+	// Update Scroll Wheel
+	// TO DO : accumulate from WndProc WM_MOUSEWHEEL messages
 	if (m_accumulatedScroll > 0) {
 		setKey(static_cast<KeyCode>(Key::SCROLL_UP), 1.0f);
 		setKey(static_cast<KeyCode>(Key::SCROLL_DOWN), 0.0f);

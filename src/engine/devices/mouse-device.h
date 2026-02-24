@@ -5,28 +5,17 @@
 class Mouse : public IInputDevice {
 public:
 	enum class Key : KeyCode {
-		NONE = 0,
+		NONE,
 
 		// Buttons
-		BUTTON_LEFT = 1,
-		BUTTON_RIGHT = 2,
-		BUTTON_MIDDLE = 3,
-		BUTTON_3 = 4,
-		BUTTON_4 = 5,
-		BUTTON_5 = 6,
-		BUTTON_6 = 7,
-		BUTTON_7 = 8,
-		BUTTON_8 = 9,
+		BUTTON_LEFT, BUTTON_RIGHT, BUTTON_MIDDLE,
+		BUTTON_3, BUTTON_4, BUTTON_5, BUTTON_6, BUTTON_7, BUTTON_8,
 
 		// Movement Delta
-		DELTA_UP = 10,
-		DELTA_DOWN = 11,
-		DELTA_LEFT = 12,
-		DELTA_RIGHT = 13,
+		DELTA_UP, DELTA_DOWN, DELTA_LEFT, DELTA_RIGHT,
 
 		// Scroll Wheel
-		SCROLL_UP = 14,
-		SCROLL_DOWN = 15,
+		SCROLL_UP, SCROLL_DOWN
 	};
 
 	static void lock();

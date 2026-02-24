@@ -6,6 +6,7 @@
     <ClCompile Include="engine\devices\keyboard-device.cpp" />
     <ClCompile Include="engine\input-manager.cpp" />
     <ClCompile Include="engine\devices\mouse-device.cpp" />
+    <ClCompile Include="engine\devices\gamepad-device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="engine\devices\keyboard-device.h" />
     <ClInclude Include="engine\input-manager.h" />
     <ClInclude Include="engine\devices\mouse-device.h" />
+    <ClInclude Include="engine\devices\gamepad-device.h" />
   </ItemGroup>
 </Project>
