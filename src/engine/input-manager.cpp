@@ -16,6 +16,7 @@ void InputManager::init() {
 void InputManager::update() {
     if (m_instance == nullptr) return;
     m_instance->m_keyboard.update();
+    m_instance->m_mouse.update();
 }
 
 void InputManager::addAction(const char* _name, const Action& _action) {
@@ -33,10 +34,13 @@ float InputManager::getAxis(const char* _axis) {
     auto it = m_instance->m_axes.find(_axis);
     if (it == m_instance->m_axes.end()) return false;
 
-    KeyValue value = (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardPositiveBinding)
-        - (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardNegativeBinding)));
+    KeyValue keyboardValue = (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardPositiveBinding))
+        - (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardNegativeBinding));
 
-    return static_cast<float>(value);
+    KeyValue mouseValue = (m_instance->m_mouse.getKey((KeyCode)it->second.mousePositiveBinding))
+        - (m_instance->m_mouse.getKey((KeyCode)it->second.mouseNegativeBinding));
+
+    return static_cast<float>(keyboardValue + mouseValue);
 }
 
 bool InputManager::getAction(const char* _action) {
@@ -44,7 +48,11 @@ bool InputManager::getAction(const char* _action) {
     auto it = m_instance->m_actions.find(_action);
     if (it == m_instance->m_actions.end()) return false;
 
-    return (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardBinding) > 0.0f);
+    bool keyboardValue = (m_instance->m_keyboard.getKey((KeyCode)it->second.keyboardBinding) > 0.0f);
+    
+    bool mouseValue = (m_instance->m_mouse.getKey((KeyCode)it->second.mouseBinding) > 0.0f);
+
+    return keyboardValue || mouseValue;
 }
 
 bool InputManager::getActionDown(const char* _action) {
@@ -52,7 +60,11 @@ bool InputManager::getActionDown(const char* _action) {
     auto it = m_instance->m_actions.find(_action);
     if (it == m_instance->m_actions.end()) return false;
 
-    return (m_instance->m_keyboard.getKeyDown((KeyCode)it->second.keyboardBinding) > 0.0f);
+    bool keyboardValue = (m_instance->m_keyboard.getKeyDown((KeyCode)it->second.keyboardBinding) > 0.0f);
+
+    bool mouseValue = (m_instance->m_mouse.getKeyDown((KeyCode)it->second.mouseBinding) > 0.0f);
+
+    return keyboardValue || mouseValue;
 }
 
 bool InputManager::getActionUp(const char* _action) {
@@ -60,5 +72,9 @@ bool InputManager::getActionUp(const char* _action) {
     auto it = m_instance->m_actions.find(_action);
     if (it == m_instance->m_actions.end()) return false;
 
-    return (m_instance->m_keyboard.getKeyUp((KeyCode)it->second.keyboardBinding) > 0.0f);
+    bool keyboardValue = (m_instance->m_keyboard.getKeyUp((KeyCode)it->second.keyboardBinding) > 0.0f);
+
+    bool mouseValue = (m_instance->m_mouse.getKeyUp((KeyCode)it->second.mouseBinding) > 0.0f);
+
+    return keyboardValue || mouseValue;
 }

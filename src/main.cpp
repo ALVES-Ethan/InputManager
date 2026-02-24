@@ -12,10 +12,10 @@ int main() {
 
 	InputManager::init();
 
-	InputManager::addAxis("horizontal", { Keyboard::Key::RIGHT, Keyboard::Key::LEFT });
-	InputManager::addAxis("vertical", { Keyboard::Key::UP, Keyboard::Key::DOWN });
+	InputManager::addAxis("horizontal"	,	{ Keyboard::Key::RIGHT, Keyboard::Key::LEFT , Mouse::Key::DELTA_RIGHT, Mouse::Key::DELTA_LEFT});
+	InputManager::addAxis("vertical"	,	{ Keyboard::Key::UP, Keyboard::Key::DOWN, Mouse::Key::DELTA_UP, Mouse::Key::DELTA_DOWN });
 
-	InputManager::addAction("jump"	,	{ Keyboard::Key::SPACE	});
+	InputManager::addAction("jump"		,	{ Keyboard::Key::SPACE, Mouse::Key::BUTTON_LEFT	});
 
 	sf::Clock delta;
 	while (window.isOpen()) {

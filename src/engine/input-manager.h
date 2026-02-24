@@ -1,6 +1,7 @@
 #pragma once
 
 #include "input-device.h"
+#include "devices/mouse-device.h"
 #include "devices/keyboard-device.h"
 
 #include <unordered_map>
@@ -8,11 +9,16 @@
 
 struct Action {
 	Keyboard::Key keyboardBinding = Keyboard::Key::NONE;
+
+	Mouse::Key mouseBinding = Mouse::Key::NONE;
 };
 
 struct Axis {
 	Keyboard::Key keyboardPositiveBinding = Keyboard::Key::NONE;
 	Keyboard::Key keyboardNegativeBinding = Keyboard::Key::NONE;
+
+	Mouse::Key mousePositiveBinding = Mouse::Key::NONE;
+	Mouse::Key mouseNegativeBinding = Mouse::Key::NONE;
 };
 
 class InputManager {
@@ -38,4 +44,5 @@ private:
 
 	// Devices
 	Keyboard m_keyboard;
+	Mouse m_mouse;
 };

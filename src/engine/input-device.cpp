@@ -35,8 +35,6 @@ void IInputDevice::endUpdate() {
 }
 
 void IInputDevice::setKey(KeyCode _keycode, KeyValue _value) {
-    _value = std::clamp(_value, 0.0f, 1.0f);
-
     if (m_current[_keycode] != _value) {
         m_current[_keycode] = _value;
         m_activity = true;
