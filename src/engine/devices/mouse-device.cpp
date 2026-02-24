@@ -3,7 +3,19 @@
 #include <windows.h>
 #include <iostream>
 
-void Mouse::update() {
+bool Mouse::m_locked = false;
+
+void Mouse::lock() {
+	m_locked = true;
+	ShowCursor(false);
+}
+
+void Mouse::unlock() {
+	m_locked = false;
+	ShowCursor(true);
+}
+
+void Mouse::update(float _delta, Rect _viewport) {
 	beginUpdate();
 
 	// Mouse Delta
@@ -23,7 +35,10 @@ void Mouse::update() {
 
 	SHORT x2State = GetAsyncKeyState(VK_XBUTTON2);
 	setKey(static_cast<KeyCode>(Key::BUTTON_4), (x2State & 0x8000) ? 1.0f : 0.0f);
-
+	
+	float viewportCenterX = _viewport.x + (_viewport.width * 0.5f);
+	float viewportCenterY = _viewport.y + (_viewport.height * 0.5f);
+	
 	// Mouse Delta
 	POINT currentPos;
 	GetCursorPos(&currentPos);
@@ -38,16 +53,28 @@ void Mouse::update() {
 		first = false;
 	}
 
-	float deltaX = currentPos.x - m_lastX;
-	float deltaY = currentPos.y - m_lastY;
+	float originX = m_lastX;
+	float originY = m_lastY;
 
-	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY : 0.0f);
+	if (m_locked) {
+		originX = viewportCenterX;
+		originY = viewportCenterY;
+	}
+
+	float deltaX = currentPos.x - originX;
+	float deltaY = currentPos.y - originY;
+
+	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX * _delta : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX * _delta : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY * _delta : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY * _delta : 0.0f);
 
 	m_lastX = currentX;
 	m_lastY = currentY;
+
+	if (m_locked) {
+		SetCursorPos(viewportCenterX, viewportCenterY);
+	}
 
 	// --- Update Scroll Wheel ---
 	// Scroll values are accumulated from WndProc WM_MOUSEWHEEL messages

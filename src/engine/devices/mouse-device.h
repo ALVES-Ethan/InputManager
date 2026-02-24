@@ -29,9 +29,13 @@ public:
 		SCROLL_DOWN = 15,
 	};
 
-	virtual void update() override;
+	static void lock();
+	static void unlock();
+
+	virtual void update(float _delta, Rect _viewport) override;
 
 private:
+	static bool m_locked; // TO DO : make it non static
 	float m_lastX = 0;
 	float m_lastY = 0;
 	int m_accumulatedScroll = 0;

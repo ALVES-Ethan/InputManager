@@ -34,7 +34,7 @@ public:
 	static bool getActionDown(const char* _action);
 	static bool getActionUp(const char* _action);
 
-	static void update();
+	static void update(float _delta, Rect _viewport);
 
 private:
 	static InputManager* m_instance;

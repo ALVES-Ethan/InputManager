@@ -149,7 +149,7 @@ int toVirtualKey(KeyCode _keycode) {
     }
 }
 
-void Keyboard::update() {
+void Keyboard::update(float _delta, Rect _viewport) {
     beginUpdate();
 
     for (KeyCode code = 0; code < 255; ++code) {

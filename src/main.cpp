@@ -30,7 +30,7 @@ int main() {
 
 		float deltaTime = delta.restart().asSeconds();
 
-		InputManager::update();
+		InputManager::update(deltaTime, { window.getPosition().x, window.getPosition().y, window.getSize().x, window.getSize().y });
 
 		float speed = deltaTime * 512.0f;
 
@@ -39,6 +39,15 @@ int main() {
 
 		if (InputManager::getActionDown("jump")) {
 			std::cout << "JUMPED !" << std::endl;
+			static bool test = false;
+			if (!test) {
+				Mouse::lock();
+				test = true;
+			}
+			else {
+				Mouse::unlock();
+				test = false;
+			}
 		}
 		
 		shape.move({x * speed, y * speed });

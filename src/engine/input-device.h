@@ -5,11 +5,16 @@
 using KeyCode = unsigned char;
 using KeyValue = float;
 
+struct Rect {
+	int x, y;
+	unsigned int width, height;
+};
+
 class IInputDevice {
 public:
 	virtual ~IInputDevice() = default;
 
-	virtual void update() = 0;
+	virtual void update(float _delta, Rect _viewport) = 0;
 
 	// Get current held state (continuous while pressed)
 	KeyValue getKey(KeyCode _keycode) const;

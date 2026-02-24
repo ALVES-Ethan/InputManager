@@ -13,10 +13,10 @@ void InputManager::init() {
     m_instance = new InputManager();
 }
 
-void InputManager::update() {
+void InputManager::update(float _delta, Rect _viewport) {
     if (m_instance == nullptr) return;
-    m_instance->m_keyboard.update();
-    m_instance->m_mouse.update();
+    m_instance->m_keyboard.update(_delta, _viewport);
+    m_instance->m_mouse.update(_delta, _viewport);
 }
 
 void InputManager::addAction(const char* _name, const Action& _action) {

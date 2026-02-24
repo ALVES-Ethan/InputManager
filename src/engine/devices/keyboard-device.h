@@ -54,5 +54,5 @@ public:
 		SEMICOLON, APOSTROPHE, COMMA, PERIOD, SLASH, TILDE
 	};
 
-	virtual void update() override;
+	virtual void update(float _delta, Rect _viewport) override;
 };
