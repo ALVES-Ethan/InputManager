@@ -61,13 +61,13 @@ void Mouse::update(float _delta, Rect _viewport) {
 		originY = viewportCenterY;
 	}
 
-	float deltaX = currentPos.x - originX;
-	float deltaY = currentPos.y - originY;
+	float deltaX = (currentPos.x - originX) / _delta * 0.016f;;
+	float deltaY = (currentPos.y - originY) / _delta * 0.016f;;
 
-	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX * _delta : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX * _delta : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY * _delta : 0.0f);
-	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY * _delta : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_RIGHT),	(deltaX > 0.0f) ? deltaX : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_LEFT),	(deltaX < 0.0f) ? -deltaX : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_UP),		(deltaY < 0.0f) ? -deltaY : 0.0f);
+	setKey(static_cast<KeyCode>(Key::DELTA_DOWN),	(deltaY > 0.0f) ? deltaY : 0.0f);
 
 	m_lastX = currentX;
 	m_lastY = currentY;

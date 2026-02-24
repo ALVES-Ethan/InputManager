@@ -5,7 +5,7 @@
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(960, 540), "Input Manager");
-	window.setFramerateLimit(0);
+	window.setFramerateLimit(30);
 
 	sf::CircleShape shape(60.0f);
 	shape.setFillColor(sf::Color::Red);
@@ -28,14 +28,22 @@ int main() {
 			}
 		}
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			window.setFramerateLimit(60);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			window.setFramerateLimit(0);
+		}
+
 		float deltaTime = delta.restart().asSeconds();
 
 		InputManager::update(deltaTime, { window.getPosition().x, window.getPosition().y, window.getSize().x, window.getSize().y });
 
 		float speed = deltaTime * 512.0f;
 
-		float x = InputManager::getAxis("horizontal");
-		float y = -InputManager::getAxis("vertical");
+		float x = InputManager::getAxis("horizontal") / 10.0f;
+		float y = -InputManager::getAxis("vertical") / 10.0f;
 
 		if (InputManager::getActionDown("jump")) {
 			std::cout << "JUMPED !" << std::endl;
