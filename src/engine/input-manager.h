@@ -10,11 +10,19 @@ struct Action {
 	Keyboard::Key keyboardBinding = Keyboard::Key::NONE;
 };
 
+struct Axis {
+	Keyboard::Key keyboardPositiveBinding = Keyboard::Key::NONE;
+	Keyboard::Key keyboardNegativeBinding = Keyboard::Key::NONE;
+};
+
 class InputManager {
 public:
 	static void init();
 
 	static void addAction(const char* _name, const Action& _action);
+	static void addAxis(const char* _name, const Axis& _axis);
+
+	static float getAxis(const char* _axis);
 
 	static bool getAction(const char* _action);
 	static bool getActionDown(const char* _action);
@@ -26,6 +34,7 @@ private:
 	static InputManager* m_instance;
 
 	std::unordered_map<std::string, Action> m_actions;
+	std::unordered_map<std::string, Axis> m_axes;
 
 	// Devices
 	Keyboard m_keyboard;
