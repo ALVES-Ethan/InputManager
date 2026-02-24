@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
+#include "engine/input-manager.h"
+#include <iostream>
 
-#include "engine/devices/keyboard-device.h"
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(960, 540), "Input Manager");
@@ -9,7 +10,14 @@ int main() {
 	sf::CircleShape shape(60.0f);
 	shape.setFillColor(sf::Color::Red);
 
-	Keyboard keyboard;
+	InputManager::init();
+
+	InputManager::addAction("left"	,	{ Keyboard::Key::LEFT	});
+	InputManager::addAction("right"	,	{ Keyboard::Key::RIGHT	});
+	InputManager::addAction("up"	,	{ Keyboard::Key::UP		});
+	InputManager::addAction("down"	,	{ Keyboard::Key::DOWN	});
+
+	InputManager::addAction("jump"	,	{ Keyboard::Key::SPACE	});
 
 	sf::Clock delta;
 	while (window.isOpen()) {
@@ -24,16 +32,17 @@ int main() {
 
 		float deltaTime = delta.restart().asSeconds();
 
-		keyboard.update();
+		InputManager::update();
 
 		float speed = deltaTime * 512.0f;
 
-		float y = keyboard.getKey((unsigned char)Keyboard::Key::UP) > 0 ? -1 :
-			keyboard.getKey((unsigned char)Keyboard::Key::DOWN) ? 1 : 0;
+		float x = InputManager::getAction("right") ? 1 : InputManager::getAction("left") ? -1 : 0;
+		float y = InputManager::getAction("up") ? -1 : InputManager::getAction("down") ? 1 : 0;
 
-		float x = keyboard.getKey((unsigned char)Keyboard::Key::LEFT) > 0 ? -1 :
-			keyboard.getKey((unsigned char)Keyboard::Key::RIGHT) ? 1 : 0;
-
+		if (InputManager::getActionDown("jump")) {
+			std::cout << "JUMPED !" << std::endl;
+		}
+		
 		shape.move({x * speed, y * speed });
 
 		window.clear();

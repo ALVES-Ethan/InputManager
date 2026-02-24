@@ -161,4 +161,6 @@ void Keyboard::update() {
 
         setKey(code, value);
     }
+
+    endUpdate(); // Finalize the frame
 }
